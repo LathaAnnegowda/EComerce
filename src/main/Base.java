@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 import utility.Propertyfiles;
+import org.testng.Reporter;
 
 public class Base extends Propertyfiles{
 
@@ -14,7 +15,6 @@ public class Base extends Propertyfiles{
 		
 		// Create a new instance of the Chrome driver
 		WebDriver driver = new ChromeDriver();
-	
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
 		driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
@@ -23,9 +23,8 @@ public class Base extends Propertyfiles{
 		//Launch the Online Store Website
 		driver.get(URL);
 		 
-		// Print a Log In message to the screen
-		System.out.println("Successfully opened the amazon application");
-		 
+		// Print a Log In message to the screen		
+		Reporter.log("Successfully opened the amazon application");
 	  
 	}
 

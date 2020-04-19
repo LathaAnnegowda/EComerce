@@ -1,2 +1,2 @@
-# EComerce
-End to End Automation
+# Sample Application
+ Ecommerce Application

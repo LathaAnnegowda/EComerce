@@ -3,35 +3,65 @@ package Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+import main.Base;
+import pageobject.CheckOutPage;
+import pageobject.HomePage;
+import pageobject.PaymentPage;
 
 import java.util.concurrent.TimeUnit;
 import utility.Propertyfiles;
 
-public class EcomModuleTest extends Propertyfiles{
+public class EcomModuleTest extends Base 
+{
+	@Test(dataProvider="TestData")
+	public void ECOM(String runmode,String Username,String Password,String Product type,String Mobile Number, String Pincode, String Faltno, String Area, String Landmark, String Town, String State ) throws InterruptedException {
+		
+		if(runmode.contentEquals(No)){
+			throw new skipExcetion("Skipping the execution");
+		}
+	//Calling the page oobjects
+	LoginPage LoginPage=new LoginPage(driver);
+	HomePage HomePage=new HomePage(driver);
+	PaymentPage PaymentPage=new PaymentPage(driver);
+	CheckOutPage CheckOutPage=new CheckOutPage(driver);
+		 
+	//Login to application
+	LoginPage.Username(Username);
+	LoginPage.Password(Password);
+	Reporter.log("Login is sucessfull");
 
-	public static void main(String[] args) throws InterruptedException {
-		
-		String exePath = "C:\\chromedriver_win32\\chromedriver.exe";
-		System.setProperty("webdriver.chrome.driver", exePath);
-		
-		// Create a new instance of the Chrome driver
-		WebDriver driver = new ChromeDriver();
+	//Select the product
+	HomePage.ProductType(Product);
+	HomePage.Buyingoptions();
+	HomePage.
+	Reporter.loog("Product selected sucessfully");
 	
-		driver.manage().window().maximize();
-		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		 
-		//Launch the Online Store Website
-		driver.get(URL);
-		 
-		// Print a Log In message to the screen
-		System.out.println("Successfully opened the amazon application");
-		//Reporter.org("Successfully opened the amazon application");
+	//check out the product
+	CheckOutPage.Fullname(Fullname);
+	CheckOutPage.Mobilenumber(Mobilenumber);
+	CheckOutPage.Flatno(Flatno);
+	CheckOutPage.Area(Area);
+	CheckOutPage.Pincode(Pincode);
+	CheckOutPage.Landmark(Landmark);
+	CheckOutPage.State(State);
+	CheckOutPage.Town(Town);
+	CheckOutPage.Deliveraddressbtn();
+	CheckOutPage.Continue();
+	Reporter.log("payment is sucessful");
 	
-		 
-	  
+	//Payment for product
+	PaymentPage.Paycheckbox();
+	PaymentPage.Paymentcontinue();
+	PaymentPage.Orderplaced();
+	Reporter.log("Order placed sucessfully");
+
+	//Quit the browser
+	driver.quit();
 	}
-
 }
+
+
+
 
